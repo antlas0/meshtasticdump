@@ -231,7 +231,6 @@ class MeshtasticDevice:
                     current_message = data.decode('utf-8').strip()
                 except UnicodeDecodeError:
                     logger.warning(f"Received non-text payload: {decoded['payload']}")
-                    return
                 else:
                     if len(current_message) > 0:
                         decoded_payload = Message()
