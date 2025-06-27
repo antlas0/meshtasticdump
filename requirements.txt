@@ -1,0 +1,4 @@
+meshtastic==2.6.4
+protobuf==5.27.3
+pubsub==0.1.2
+pyserial==3.5
