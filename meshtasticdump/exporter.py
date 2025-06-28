@@ -35,8 +35,7 @@ class FileExporter:
         self.export_logger.debug(data)
     
     def quit(self) -> None:
-        if self.file is not None:
-            self.file.close()
+        pass
 
 class Exporter:
     def __new__(cls, kind):
