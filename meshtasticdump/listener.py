@@ -25,7 +25,9 @@ class Listener:
         self._device_uri = args.device
 
     def setup(self) -> bool:
-        return self._md.connect_device(self._device_uri)
+        if self._device_uri is not None and self._device_uri:
+            return self._md.connect_device(self._device_uri)
+        return False
 
     def handle_packet(self, packet) -> None:
         formatted = self.formatter.format(packet)
