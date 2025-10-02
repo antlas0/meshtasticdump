@@ -2,6 +2,7 @@ import base64
 import meshtastic
 import meshtastic.ble_interface
 import meshtastic.serial_interface
+import meshtastic.tcp_interface
 from pubsub import pub
 import logging
 from typing import Optional, Any
@@ -56,7 +57,6 @@ class MeshtasticDevice:
             except Exception as e:
                 logger.warning(f"Failed to connect to Meshtastic device {uri}: {str(e)}")
                 return False
-
         elif uri.startswith("ble://"):
             uri = uri.replace("ble://", "")
             try:
@@ -64,8 +64,15 @@ class MeshtasticDevice:
             except Exception as e:
                 logger.warning(f"Failed to connect to Meshtastic device {uri}: {str(e)}")
                 return False
+        elif uri.startswith("tcp://"):
+            uri = uri.replace("tcp://", "")
+            try:
+                self._interface = meshtastic.tcp_interface.TCPInterface(hostname=uri)
+            except Exception as e:
+                logger.warning(f"Failed to connect to Meshtastic device {uri}: {str(e)}")
+                return False
         else:
-            logger.error(f"Not recognized. Device URI should start with either `serial://` or `ble://`.")
+            logger.error(f"Not recognized. Device URI should start with either `serial://`, `ble://`, or `tcp://`.")
             return False
 
         pub.subscribe(self.on_receive, "meshtastic.receive")
